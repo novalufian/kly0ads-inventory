@@ -1,0 +1,485 @@
+<script>
+     var _klyAds = parent.kmklabs || parent.kly;
+     var _platform = _klyAds.platform.toLowerCase();
+     var _site = _klyAds.site.toLowerCase();
+     var _pageType = _klyAds.pageType.toLowerCase();
+     var _channelPage = _klyAds.gtm.subSubCategory.toLowerCase();
+
+     var _mainImg = "[%dfp_image_desktop%]";
+     var _landingPage = "%%CLICK_URL_UNESC%%[%dfp_landing_page%]"; // dfp landing apge 
+     var _title = "[%dfp_title%]"; // dfp title
+     var _desc = "[%dfp_desc%]"; // dfp desc
+     var _customTag = "[%dfp_label%]"; // dfp desc
+     var _labelURL = "[%dfp_labelURL%]";
+
+     var _targetEl = {
+        "_option" : null,
+        "_organicFeed" : null,
+        "_organicFeedClone" : null,
+        "_anchor" : null,
+        "_img" : null,
+        "_source" : null,
+        "_tag" : null,
+        "_mainTitle" : null,
+        "_descTarget" : null,
+    }
+
+    var settings = {
+        "kapanlagi" : {
+            "homepage" : {
+                "_organicFeed" : {
+                    "mobile" : {
+                        "name":"ul.artikel-list-img li.clearfix",
+                        "style":"border-bottom: 1px solid #ECECEC;padding: 10px 5px;"
+                    },
+                    "desktop" : "ul.leftrecomendations-loader-list.list-berita-kl.clearfix li.clearfix"
+                },
+              	"_anchor" : {
+                    "mobile" : {
+                      "name":"a",
+                      "style":"float: left; margin-right: 10px; margin-top: 5px;"
+                    },
+                    "desktop" : "a"
+                },
+                //"_anchor" : "a",
+                "_img" : {
+                    "desktop" : {
+                        "name" : "img",
+                        "style" : "object-fit : cover"
+                    },
+                    "mobile" : "img"
+                },
+                "_source" : "source",
+                "_tag" : {
+                    "mobile" : ".link-grey a",
+                    "desktop" : false,
+                },
+                "_mainTitle" : {
+                    "mobile" : "p a",
+                    "desktop" : ".deskrip-berita p",
+                },
+                "_descTarget" : false // false when no target 
+            },
+            "readpage" : {
+                "_organicFeed" : {
+                    "mobile" : "ul#infscroll-1 li.widereadpage-item",
+                    "desktop" : "ul.list-stories.list-unstyled.clearfix li"
+                },
+                "_anchor" : "a",
+                "_img" : "img",
+                "_source" : "source",
+                "_tag" : {
+                    "mobile" : "a.cat",
+                    "desktop" : "a.link-kategori",
+                },
+                "_mainTitle" : {
+                    "mobile" : "p a",
+                    "desktop" : "h2 a",
+                },
+                "_descTarget" : false // false when no target 
+            },
+            "selebriti" : {
+                "_organicFeed" : {
+                    "mobile" : "ul.artikel-content.artikel-bt1.list-unstyled.clearfix li.artikel-kl .artikel-box.clearfix",
+                    "desktop" : ".artikel-detail-flat ul li"
+                },
+                "_anchor" : "a",
+                "_img" : {
+                    "mobile" : {
+                        "name" : "img",
+                        "style" : "opacity : 1;"
+                    },
+                    "desktop" : {
+                        "name" : "img",
+                        "style" : "opacity : 1;width: 100%; height: 80px; object-fit: cover;"
+                    }
+                },
+                "_source" : "source",
+                "_tag" : false,
+                "_mainTitle" : {
+                    "mobile" : ".artikel-description span.title a",
+                    "desktop" : ".deskrip a h3",
+                },
+                "_descTarget" : {
+                    "mobile" : false,
+                    "desktop" : ".deskrip p"
+                } // false when no target 
+            },
+            "korea" : {
+                "_organicFeed" : {
+                    "mobile" : "ul.klk-updates-list li.newsview.news-item .article",
+                    "desktop" : ".kl-artikel-box .klk-latest ul.klk-latest-list li"
+                },
+                "_anchor" : "a",
+                "_img" : {
+                    "mobile" : "img",
+                    "desktop" : {
+                        "name" : "img",
+                        "style" : "object-fit : cover; height : 86px;",
+                    }
+                },
+                "_source" : "source",
+                "_tag" : ".article-description .cat",
+                "_mainTitle" : ".article-description p a",
+                "_descTarget" : false // false when no target 
+            },
+            "dangdut" : {
+                "_option" : {
+                    "_isReplace" : "desktop", // all, mobile , desktop , by default false or non ads will apend to parent frame element
+                    "_replaceTarget" : [2,3,4], // index of target element 
+                },
+                "_organicFeed" : {
+                    "mobile" : {
+                        "name" : "ul.list-default.list-default-lg.list-unstyled li",
+                        "filter" : {
+                            "include" : false,
+                            "class" : ["crm-ad", "headline"],
+                        }
+                    },
+                    "desktop" : ".wrapper-kabar-dangdut .col-kabar"
+                },
+                "_anchor" : "a",
+                "_img" : {
+                    "mobile" : {
+                        "name" : "img",
+                        "style" : "object-fit : cover"
+                    },
+                    "desktop" : {
+                        "name" : "img",
+                        "style" : "object-fit : cover"
+                    }
+                },
+                "_source" : "source",
+                "_tag" : {
+                    "mobile" : ".description .kategori",
+                    "desktop" : "a .tag",
+                },
+                "_mainTitle" : {
+                    "mobile" : ".description p a",
+                    "desktop" : "p a",
+                },
+                "_descTarget" : false // false when no target 
+            }
+        },
+        "liputan6" : {
+            "homepage" : {
+                "_organicFeed" : {
+                    "mobile" : {
+                        "name" : ".articles__page .article-snippet.js-article-snippet",
+                        "filter" : {
+                            "data-template-name":"article-snippet",
+                            "data-type" : "TextTypeArticle"
+                        }
+                    },
+                    "desktop" : ".articles--iridescent-list article"
+                },
+                "_anchor" : "a",
+                "_img" : {
+                    "desktop" : {
+                        "name" : "img",
+                        "style" : "object-fit : cover"
+                    },
+                    "mobile" : {
+                        "name" : "img",
+                        "style" : "object-fit : cover"
+                    }
+                },
+                "_source" : "source",
+                "_tag" : {
+                    "mobile" : ".article-snippet__label",
+                    "desktop" : ".articles--iridescent-list--text-item__category",
+                },
+                "_mainTitle" : {
+                    "mobile" : ".article-snippet__title-text",
+                    "desktop" : ".articles--iridescent-list--text-item__title-link-text",
+                },
+                "_descTarget" : {
+                    "mobile" : false,
+                    "desktop" : ".articles--iridescent-list--text-item__summary"
+                }
+            },
+            "readpage" : {
+                "_option" : {
+                    "_isReplace" : "desktop", // all, mobile , desktop , by default false or non ads will apend to parent frame element
+                    "_replaceTarget" : [4,5,6], // index of target element 
+                },
+                "_organicFeed" : {
+                    "mobile" : ".related-cached__page.js-page__articles .article-snippet--related--new-style",
+                    "desktop" : ".relateds-slow--lattice .relateds-slow--lattice--item"
+                },
+                "_anchor" : "a",
+                "_img" : "img",
+                "_source" : "source",
+                "_tag" : false,
+                "_mainTitle" : {
+                    "mobile" : "span.article-snippet--related__title-text",
+                    "desktop" : ".relateds-slow--lattice--item__title",
+                },
+                "_descTarget" : false
+            }
+        },
+        "merdeka" : {
+           "homepage" : {
+               "_organicFeed" : {
+                   "mobile" : {
+                       "name":"ul.mdk-top-stories-item li.hl-section",
+                       "style":"border-top: none; padding: 0 10px !important;"
+                   },
+                   "desktop" : "ul.leftrecomendations-loader-list.list-berita-kl.clearfix li.clearfix"
+               },
+               "_anchor" : "a",
+               "_img" : {
+                   "desktop" : {
+                       "name" : "img",
+                       "style" : "object-fit : cover"
+                   },
+                   "mobile" : "img"
+               },
+               "_source" : "source",
+               "_tag" : {
+                   "mobile" : ".time",
+                   "desktop" : false,
+               },
+               "_mainTitle" : {
+                   "mobile" : ".container",
+                   "desktop" : ".deskrip-berita p",
+               },
+               "_descTarget" : false // false when no target 
+           },
+           "readpage" : {
+               "_organicFeed" : {
+                   "mobile" : "ul#infscroll-1 li.widereadpage-item",
+                   "desktop" : "ul.list-stories.list-unstyled.clearfix li"
+               },
+               "_anchor" : "a",
+               "_img" : "img",
+               "_source" : "source",
+               "_tag" : {
+                   "mobile" : "a.cat",
+                   "desktop" : "a.link-kategori",
+               },
+               "_mainTitle" : {
+                   "mobile" : "p a",
+                   "desktop" : "h2 a",
+               },
+               "_descTarget" : false // false when no target 
+           },
+            "channelpage" : {
+                "_organicFeed" : {
+                    "mobile" : {
+                        "name":"ul.list-new-article.list-unstyled.clearfix li"
+                    },
+                    "desktop" : "ul.leftrecomendations-loader-list.list-berita-kl.clearfix li.clearfix"
+                },
+                "_anchor" : "a",
+                "_img" : {
+                    "desktop" : {
+                        "name" : "img",
+                        "style" : "object-fit : cover"
+                    },
+                    "mobile" : "img"
+                },
+                "_source" : "source",
+                "_tag" : {
+                    "mobile" : false,
+                    "desktop" : false,
+                },
+                "_mainTitle" : {
+                    "mobile" : ".deskrip-right p a",
+                    "desktop" : ".deskrip-berita p",
+                },
+                "_descTarget" : false // false when no target 
+            }
+        }
+    }
+
+    _bootads();
+
+    function _bootads() {
+        
+        var _indexPage = "homepage";
+        if (_pageType === "channelpage") {
+            for(_key in settings[_site]){
+                if (_key === _channelPage) {
+                    _indexPage = _channelPage;
+                }
+            }
+            if (_site === "merdeka") {
+              _indexPage = _pageType;
+            }
+        } else if (_pageType === "readpage") { 
+           for(_key in settings[_site]){
+               if (_key === _pageType) {
+                   _indexPage = _pageType;
+               }
+            }
+        }
+        
+        _findTargetEl(settings[_site][_indexPage]);
+        _injectAds();
+    }
+
+    function _findTargetEl(_targetObject) {
+        for (_key in _targetObject) {
+            var _target = (typeof _targetObject[_key] != "string") ? _targetObject[_key][_platform] : _targetObject[_key];
+
+            if (_key != "_option") {
+                _setTargetElement(_key, _target);
+            }else{
+                _targetEl[_key] = _targetObject[_key];
+            }
+        }
+    }
+
+    function _setTargetElement(_key, _target) {
+        if (!_target) return
+
+        var _wrapper = (_key == "_organicFeed") ? parent.document : _targetEl._organicFeedClone;
+        var _targetTag = (typeof _target == "object") ? _target.name : _target;
+        _targetEl[_key] = (typeof _target.filter == "object" ) ? _targetElFilter(_target , _wrapper.querySelectorAll(_targetTag)) :  _wrapper.querySelectorAll(_targetTag);
+
+        if (typeof _target == "object") {
+            _targetEl[_key][0].style = _target.style;      
+        }
+
+        if (_key == "_organicFeed") {
+            var _thisParent = window.frameElement.parentElement.parentElement;
+
+            if (_isReplaceTarget(_thisParent) == null) {
+                _targetEl._organicFeedClone = _targetEl[_key][0].cloneNode(true);    
+            }else{
+                _targetEl._organicFeedClone = _targetEl._organicFeed[_isReplaceTarget(_thisParent)];
+            }
+        }
+
+        
+    }
+
+    function _targetElFilter(_target, _qrObj) {
+        // do filter target element
+        var _mainTarget = _qrObj;
+        var _isInclude = true; // filter setting is not some class or atribut 
+                                // exclude element 
+        for(_filter in _target.filter){
+
+            _isInclude = (_filter == "include") ? _target.filter[_filter] : _isInclude;
+            
+            var _filteredTarget = [];
+
+            if (typeof _target.filter[_filter] == "object") {
+                _mainTarget = _filterArrayValue(_isInclude, _target.filter[_filter], _mainTarget);
+            }else{
+                _mainTarget = _filterStringValue(_isInclude, _target.filter[_filter], _mainTarget);
+            }
+
+        }
+        
+        return _mainTarget;
+    }
+
+    function _filterArrayValue(filterType, filterValue, targetEls) {
+        var _tempTarget = [];
+        var _targetEls = targetEls;
+
+        filterValue.forEach( function(element, index) {
+            _tempTarget = [];
+
+            _targetEls.forEach(function (el, i) {
+        
+                var _filterAtribute = el.getAttribute(_filter);
+                var _condition = (filterType) ? _filterAtribute == element : _filterAtribute !== element;
+                if (_condition) {
+                    _tempTarget.push(el);
+                }
+            })
+            
+            _targetEls = _tempTarget;
+
+        });
+
+        return _tempTarget;
+        
+    }
+
+    function _filterStringValue(filterType, filterValue, targetEls) {
+        // body...
+        var _tempTarget = []
+        targetEls.forEach(function (el, i) {
+                    
+            var _filterAtribute = el.getAttribute(_filter);
+            var _condition = (filterType) ? _filterAtribute == filterValue : _filterAtribute !== filterValue;
+
+            if (_condition) {
+                _tempTarget.push(el);
+            }
+        })
+
+        return _tempTarget;
+    }
+
+    function _injectAds() {
+        var _thisParent = window.frameElement.parentElement.parentElement;
+        var _targetInsert = true;
+        if (_isReplaceTarget(_thisParent) != null) {
+            _targetInsert = false;
+        }
+
+        //replace landing page
+        _replaceAttribute(_targetEl._anchor, "href", _landingPage);
+        _replaceAttribute(_targetEl._anchor, "target", "_blank");
+        _replaceAttribute(_targetEl._anchor, "title", _title);
+      
+        //repalce img
+        _replaceAttribute(_targetEl._img, "src", _mainImg);
+        _replaceAttribute(_targetEl._img, "data-src", _mainImg);
+        _replaceAttribute(_targetEl._img, "alt", _title);
+        _replaceAttribute(_targetEl._source, "srcset", _mainImg);
+        _replaceAttribute(_targetEl._source, "data-src", _mainImg);
+        _replaceAttribute(_targetEl._source, "data-srcset", _mainImg);
+        // replace title
+        _targetEl._mainTitle[0].lastChild.textContent = _title;
+
+        if (_targetEl._tag !== null) {
+            _targetEl._tag[0].textContent = _customTag;
+        }
+        if (_targetEl._descTarget !== null) {
+            _targetEl._descTarget[0].textContent = _desc;
+        } 
+        
+        // for live template 
+        if (!_thisParent.classList.contains("crm-filled") && _targetInsert) {
+            _thisParent.appendChild(_targetEl._organicFeedClone);
+            _thisParent.setAttribute("class", "crm-filled");
+        }
+        
+        window.frameElement.parentElement.style.display = 'none';
+        
+    }
+
+    function _isReplaceTarget(_thisParent) {
+        var _return = null;
+        var _option_ = _targetEl._option;
+        var _parentId = _thisParent.id;
+
+        if (_option_ !== null) {
+            if(_option_._isReplace == _platform  || _option_._isReplace == "all"){
+                // conver crm number to array index key 0 1 2 
+                var _index = parseInt(_parentId.split("-")[4].split("crm")[1]) - 1; 
+                // convert number target to index array from 2 3 4 (order number ) to 1 2 3 ( array index );
+                var _indexReplace = _option_._replaceTarget[_index] - 1; 
+                _return = _indexReplace;
+            }
+        } 
+        return _return;
+    }
+
+    function _replaceAttribute(_targetArray, _attrName, _attr) {
+        
+        _targetArray.forEach( function(element, index) {
+            element.setAttribute(_attrName, "")
+            element.setAttribute(_attrName, _attr)
+        });
+    }
+
+</script>
+<img src="%%VIEW_URL_UNESC%%" alt="" style="display: none;">
